@@ -37,13 +37,12 @@ const useCategorys = () => {
 
     // Create a Category
     const createCategory = async (categoryData) => {
-        console.log("CategoryData", categoryData); 
         try {
             setIsLoading(true);
             const response = await axios.post("http://localhost:4000/Category", categoryData); 
             setCategorys((prevCategorys) => {
                 if (Array.isArray(prevCategorys)) {
-                    return [...prevCategorys , response.data.payload]
+                    return [...prevCategorys , response.data.payload];
                 } else {
                     return [response.data.payload]
                 }
@@ -58,6 +57,7 @@ const useCategorys = () => {
             setIsLoading(false);
         }
     };
+    
 
     // Update a Category
     const updateCategory = async (id, updatedData) => {

@@ -10,6 +10,8 @@ import NotFoundPage from './pages/customer/notFound/NotFound.jsx';
 import Layout from "./components/layout/Layout.jsx";
 import ProductsPage from './pages/product/Products.jsx';
 import UsersPage from './pages/user/User.jsx';
+import CategoryPage from './pages/category/Category.jsx';
+
 function App() {
 
       //  TODO! Jus for test
@@ -29,6 +31,8 @@ function App() {
        <Route path="/examples" element={<ExamplesPage />} />
        <Route path="/products" element={<ProductsPage />} />
        <Route path="/users" element={<UsersPage />} />
+       <Route path="/category" element={<CategoryPage />} />
+
 
        </Route>
 
