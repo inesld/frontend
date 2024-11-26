@@ -14,14 +14,14 @@ const CategoryPage = () => {
         isLoading,
         error,
         setError,
-        getAllCategories,
+        getAllCategorys,
         createCategory,
         updateCategory,
         deleteCategory
     } = useCategory();
 
     const { currentPage, currentItems, totalPages, handlePageChange } =
-        usePagination(categories, 5);
+        usePagination(categories, 1);
 
     const [showModal, setShowModal] = useState(false);
     const [modalAction, setModalAction] = useState('create');
@@ -48,7 +48,7 @@ const CategoryPage = () => {
             createCategory(categoryData)
                 .then(() => {
                     handleClose();
-                    getAllCategories();
+                    getAllCategorys();
                 })
                 .catch((err) => {
                     alert("Error creating category");
@@ -57,7 +57,7 @@ const CategoryPage = () => {
             updateCategory(categorySelected._id, categoryData)
                 .then(() => {
                     handleClose();
-                    getAllCategories();
+                    getAllCategorys();
                 })
                 .catch((err) => {
                     alert("Error updating category");
@@ -69,7 +69,7 @@ const CategoryPage = () => {
         if (window.confirm('Are you sure you want to delete this category?')) {
             deleteCategory(id)
                 .then(() => {
-                    getAllCategories();
+                    getAllCategorys();
                 })
                 .catch((err) => {
                     alert("Error deleting category");

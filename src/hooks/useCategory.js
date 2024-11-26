@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useCategorys = () => {
-    const [categorys, setCategorys] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [categorySelected, setCategorySelected] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +12,7 @@ const useCategorys = () => {
         try {
             setIsLoading(true);
             const response = await axios.get("http://localhost:4000/Category");
-            setCategorys(response.data.payload);
+            setCategories(response.data.payload);
         } catch (err) {
             setError(err.response?.data?.message || 'Error fetching Categorys');
             console.error("Error fetching Categorys", err);
@@ -40,7 +40,7 @@ const useCategorys = () => {
         try {
             setIsLoading(true);
             const response = await axios.post("http://localhost:4000/Category", categoryData); 
-            setCategorys((prevCategorys) => {
+            setCategories((prevCategorys) => {
                 if (Array.isArray(prevCategorys)) {
                     return [...prevCategorys , response.data.payload];
                 } else {
@@ -64,7 +64,7 @@ const useCategorys = () => {
         try {
             setIsLoading(true);
             const response = await axios.put(`http://localhost:4000/Category/${id}`, updatedData);
-            setCategorys(prevCategorys =>
+            setCategories(prevCategorys =>
                 prevCategorys.map(category => category._id === id ? response.data.payload : category)
             );
         } catch (err) {
@@ -80,7 +80,7 @@ const useCategorys = () => {
         try {
             setIsLoading(true);
             await axios.delete(`http://localhost:4000/Category/${id}`);
-            setCategorys(prevCategorys => prevCategorys.filter(category => category._id !== id));
+            setCategories(prevCategorys => prevCategorys.filter(category => category._id !== id));
         } catch (err) {
             setError(err.response?.data?.message || `Error deleting Category with id: ${id}`);
             console.error("Error deleting Category", err);
@@ -94,7 +94,7 @@ const useCategorys = () => {
     }, []);
 
     return {
-        categorys, // hné 
+        categories, 
         categorySelected,
         setCategorySelected,
         isLoading,
