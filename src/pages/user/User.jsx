@@ -29,14 +29,34 @@ const UsersPage = () => {
     // State to manage the modal visibility and form action (create or update)
     const [showModal, setShowModal] = useState(false);
     const [modalAction, setModalAction] = useState('create');
-    const [userData, setUserData] = useState({ id: '', name: '', email: '' });
+    const [userData, setUserData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        gender: 'Other', 
+    });
 
     // Function to show the modal and set the action (create or update)
-    const handleShow = (action, user) => {
+    const handleShow = (action, user = null) => {
         setModalAction(action);
         if (action === 'update' && user) {
-            setUserData({ id: user._id, name: user.name, email: user.email });
+            setUserData({
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                email: user.email || '',
+                password: '',
+                gender: user.gender || 'Other',
+            });
             setUserSelected(user);
+        } else {
+            setUserData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                gender: 'Other',
+            });
         }
         setShowModal(true);
     };
@@ -44,30 +64,42 @@ const UsersPage = () => {
     // Function to close the modal and reset form data
     const handleClose = () => {
         setShowModal(false);
-        setUserData({ id: '', name: '', email: '' });
+        setUserData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            gender: 'Other',
+        });
         setUserSelected(null);
     };
 
     // Function to submit the create or update user form
+
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        if (modalAction === 'create') { 
-            createUser(userData).then(() => {
-                handleClose();
-                getAllUsers(); // Refresh the list after creation
-            }).catch((err) => {
-                alert("Error creating user");
-            });
+
+        if (modalAction === 'create') {
+            createUser(userData)
+                .then(() => {
+                    handleClose();
+                    getAllUsers();
+                })
+                .catch(() => {
+                    alert("Error creating user");
+                });
         } else if (modalAction === 'update' && userSelected) {
-            updateUser(userSelected._id, userData).then(() => {
-                handleClose();
-                getAllUsers(); // Refresh the list after update
-            }).catch((err) => {
-                alert("Error updating user");
-            });
+            updateUser(userSelected._id, userData)
+                .then(() => {
+                    handleClose();
+                    getAllUsers();
+                })
+                .catch(() => {
+                    alert("Error updating user");
+                });
         }
     };
-
+    
     // Function to handle user deletion with confirmation
     const handleDeleteUser = (id) => {
         if (window.confirm('Are you sure you want to delete this user?')) {
@@ -78,6 +110,7 @@ const UsersPage = () => {
             });
         }
     };
+    
 
     return (
         <div className="container mt-4">
@@ -122,9 +155,9 @@ const UsersPage = () => {
                                     <tr key={user._id}>
                                         <OverlayTrigger
                                             placement="top"
-                                            overlay={<Tooltip id="nameUser-tooltip">{user.name}</Tooltip>}  // Show full name on hover
+                                            overlay={<Tooltip id="nameUser-tooltip">{user.firstName}</Tooltip>}  // Show full name on hover
                                         >
-                                            <td>{truncateText(user.name, 5)}</td>
+                                            <td>{truncateText(user.firstName, 6)}</td>
                                         </OverlayTrigger>
 
                                         <OverlayTrigger
@@ -181,41 +214,93 @@ const UsersPage = () => {
 
             {/* Modal to create or update a user */}
             <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{modalAction === 'create' ? 'Create User' : 'Update User'}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleFormSubmit}>
-                        <Form.Group controlId="formUserName">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter name"
-                                value={userData.name}
-                                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                                required
-                            />
-                        </Form.Group>
+    <Modal.Header closeButton>
+        <Modal.Title>{modalAction === 'create' ? 'Create User' : 'Update User'}</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        <Form onSubmit={handleFormSubmit}>
+            {/* First Name */}
+            <Form.Group controlId="formUserFirstName" className="mb-3">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter first name"
+                    value={userData.firstName}
+                    onChange={(e) =>
+                        setUserData({ ...userData, firstName: e.target.value })
+                    }
+                    required
+                />
+            </Form.Group>
 
-                        <Form.Group controlId="formUserEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="Enter email"
-                                value={userData.email}
-                                onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                                required
-                            />
-                        </Form.Group>
+            {/* Last Name */}
+            <Form.Group controlId="formUserLastName" className="mb-3">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter last name"
+                    value={userData.lastName}
+                    onChange={(e) =>
+                        setUserData({ ...userData, lastName: e.target.value })
+                    }
+                    required
+                />
+            </Form.Group>
 
-                        <Button variant="primary" type="submit">
-                            {modalAction === 'create' ? 'Create' : 'Update'}
-                        </Button>
-                    </Form>
-                </Modal.Body>
-            </Modal>
+            {/* Email */}
+            <Form.Group controlId="formUserEmail" className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={userData.email}
+                    onChange={(e) =>
+                        setUserData({ ...userData, email: e.target.value })
+                    }
+                    required
+                />
+            </Form.Group>
+
+            {/* Password */}
+            {modalAction === 'create' && (
+                <Form.Group controlId="formUserPassword" className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Enter password"
+                        value={userData.password}
+                        onChange={(e) =>
+                            setUserData({ ...userData, password: e.target.value })
+                        }
+                        required
+                    />
+                </Form.Group>
+            )}
+
+            {/* Gender */}
+            <Form.Group controlId="formUserGender" className="mb-3">
+                <Form.Label>Gender</Form.Label>
+                <Form.Select
+                    value={userData.gender}
+                    onChange={(e) =>
+                        setUserData({ ...userData, gender: e.target.value })
+                    }
+                    required
+                >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </Form.Select>
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+                {modalAction === 'create' ? 'Create' : 'Update'}
+            </Button>
+        </Form>
+    </Modal.Body>
+</Modal>
         </div>
     );
 };
 
-export default UsersPage;
+export default UsersPage; 
