@@ -19,7 +19,7 @@ const Menu = () => {
             <Nav.Link onClick={() => navigate('/users')}>
               Users
             </Nav.Link>
-            <Nav.Link onClick={() => navigate('/orders')}>
+            <Nav.Link onClick={() => navigate('/commandes')}>
               Orders
             </Nav.Link>
             <Nav.Link onClick={() => navigate('/categories')}>

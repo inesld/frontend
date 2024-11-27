@@ -11,6 +11,7 @@ import Layout from "./components/layout/Layout.jsx";
 import ProductsPage from './pages/product/Products.jsx';
 import UsersPage from './pages/user/User.jsx';
 import CategoryPage from './pages/category/Category.jsx';
+import CommandesPage from './pages/commande/Commande.jsx';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
        <Route path="/products" element={<ProductsPage />} />
        <Route path="/users" element={<UsersPage />} />
        <Route path="/categories" element={<CategoryPage />} />
+       <Route path="/commandes" element={<CommandesPage />} />
 
 
        </Route>
