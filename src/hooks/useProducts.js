@@ -75,40 +75,24 @@ const useProducts = () => {
     // Create a product
 
     const createProduct = async (productData) => {
-
-        console.log("productData", productData);
-
         try {
-
             setIsLoading(true);
-
             const response = await axios.post("http://localhost:4000/products", productData);
-
             setProducts((prevProducts) => {
-
                 if (Array.isArray(prevProducts)) {
-
                     return [...prevProducts , response.data.payload]
-
                 } else {
-
                     return [response.data.payload]
-
                 }
-
             }
-
             );
 
             getAllProducts()
 
         } catch (err) {
 
-           
-
             setError(err.response?.data?.message || 'Error creating product');
 
-           
 
         } finally {
 
@@ -117,8 +101,6 @@ const useProducts = () => {
         }
 
     };
-
- 
 
     // Update a product
 

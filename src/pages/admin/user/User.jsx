@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal, Table, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import useUsers from '../../hooks/useUser.js'
-import { EditIcon, DeleteIcon, CreateIcon } from '../../assets/icons/Icons.jsx';  // Reuse the icons
-import Loader from '../../components/loader/Loader.jsx';
-import { truncateText } from '../../assets/utils/helpers.js';
-import Pagination from '../../components/paggination/Paggination.jsx'; // Pagination component
-import usePagination from '../../hooks/usePagination.js';
+import useUsers from '../../../hooks/useUser.js'
+import { EditIcon, DeleteIcon, CreateIcon } from '../../../assets/icons/Icons.jsx';  // Reuse the icons
+import Loader from '../../../components/loader/Loader.jsx';
+import { truncateText } from '../../../assets/utils/helpers.js';
+import Pagination from '../../../components/paggination/Paggination.jsx'; // Pagination component
+import usePagination from '../../../hooks/usePagination.js';
 
 const UsersPage = () => {
 

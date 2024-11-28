@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
-import useCommandes from '../../hooks/useCommande';
-import Loader from '../../components/loader/Loader';
-import { EditIcon, DeleteIcon, CreateIcon } from '../../assets/icons/Icons';
-import { truncateText } from '../../assets/utils/helpers';
+import useCommandes from '../../../hooks/useCommande';
+import Loader from '../../../components/loader/Loader';
+import { EditIcon, DeleteIcon, CreateIcon } from '../../../assets/icons/Icons';
+import { truncateText } from '../../../assets/utils/helpers';
+import Pagination from '../../../components/paggination/Paggination';
+import usePagination from '../../../hooks/usePagination';
 
 const Commande = () => {
     const {
@@ -18,6 +20,11 @@ const Commande = () => {
         products,
         users,
     } = useCommandes();
+
+
+     // TODO! Destructure pagination hook to manage current page and items
+     const { currentPage, currentItems, totalPages, handlePageChange } =
+     usePagination(commandes, 1);
 
     const [showModal, setShowModal] = useState(false);
     const [modalAction, setModalAction] = useState('create');
@@ -131,8 +138,8 @@ const Commande = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {commandes?.length > 0 ? (
-                                commandes.map((commande) => (
+                            {currentItems?.length > 0 ? (
+                                currentItems.map((commande) => (
                                     <tr key={commande._id}>
                                         <td>{new Date(commande.dateCommande).toLocaleDateString('fr-FR')}</td>
                                         <td>{commande.status}</td>
@@ -151,6 +158,7 @@ const Commande = () => {
                                                 onClick={() => handleDeleteCommande(commande._id)}
                                             >
                                                 <DeleteIcon />
+
                                             </Button>
                                         </td>
                                     </tr>
@@ -162,6 +170,13 @@ const Commande = () => {
                             )}
                         </tbody>
                     </Table>
+                    {currentItems?.length > 0 && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    )}   
                 </>
             )}
 
@@ -181,11 +196,14 @@ const Commande = () => {
                                         onChange={(e) => handleProductChange(index, 'productId', e.target.value)}
                                     >
                                         <option value="">Select a product</option>
-                                        {products.map((p) => (
+                                        {products?.map((p) => (
                                             <option key={p._id} value={p._id}>
                                                 {p.name}
                                             </option>
                                         ))}
+
+
+
                                     </Form.Control>
                                 </Form.Group>
                                 <Form.Group controlId={`quantity-${index}`}>

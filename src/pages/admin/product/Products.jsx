@@ -7,16 +7,21 @@ import {
   Alert,
   OverlayTrigger,
   Tooltip,
- elect
-} 
-from "react-bootstrap";
-import useProducts from "../../hooks/useProducts.js";
-import useCategorys from "../../hooks/useCategory.js";
-import { EditIcon, DeleteIcon, CreateIcon } from "../../assets/icons/Icons.jsx";
-import Loader from "../../components/loader/Loader.jsx";
-import Pagination from "../../components/paggination/Paggination.jsx";
-import usePagination from "../../hooks/usePagination.js";
-import { truncateText } from "../../assets/utils/helpers.js";
+  select,
+} from "react-bootstrap";
+import useProducts from "../../../hooks/useProducts.js";
+import useCategorys from "../../../hooks/useCategory.js";
+import {
+  EditIcon,
+  DeleteIcon,
+  CreateIcon,
+} from "../../../assets/icons/Icons.jsx";
+import Loader from "../../../components/loader/Loader.jsx";
+import Pagination from "../../../components/paggination/Paggination.jsx";
+import usePagination from "../../../hooks/usePagination.js";
+
+
+
 
 const Products = () => {
   const {
@@ -32,8 +37,8 @@ const Products = () => {
     getAllProducts,
   } = useProducts();
 
-  const {  categorys } = useCategorys(); // Assuming categories are fetched here
-console.log("categories",categorys);
+  const { categories } = useCategorys(); // Assuming categories are fetched here
+  console.log("categories", categories);
   const { currentPage, currentItems, totalPages, handlePageChange } =
     usePagination(products, 1);
 
@@ -41,12 +46,12 @@ console.log("categories",categorys);
   const [modalAction, setModalAction] = useState("create");
   const [productData, setProductData] = useState({
     name: "",
-    id: '',
+    id: "",
     description: "",
     image: "",
     price: 0,
     store: 0,
-    categoryId: "", // We will now use categoryId as an ID in the select
+    category: { id: "" }, // We will now use categoryId as an ID in the select
   });
 
   const handleShow = (action, product) => {
@@ -58,7 +63,10 @@ console.log("categories",categorys);
         image: product.image,
         price: product.price,
         store: product.store,
-        categoryId: product.categoryId, // Set the categoryId correctly for updates
+        category: {
+          id: product.category.id,
+          name: product.category.name,
+        },
       });
       setProductSelected(product);
     }
@@ -73,7 +81,7 @@ console.log("categories",categorys);
       image: "",
       price: 0,
       store: 0,
-      categoryId: "",
+      category: { id: "", name: "" },
     });
     setProductSelected(null);
   };
@@ -155,10 +163,10 @@ console.log("categories",categorys);
                     <td>{product.description}</td>
                     <td>{product.store}</td>
                     <td>${product.price.toFixed(2)}</td>
+                    <td>{product.category.name}</td>
                     <td>
-                      {product.category.name}
-                    </td>
-                    <td>
+                    
+
                       <Button
                         variant="warning"
                         onClick={() => handleShow("update", product)}
@@ -181,68 +189,9 @@ console.log("categories",categorys);
                 </tr>
               )}
             </tbody>
-            {/* <tbody>
-  {currentItems?.length > 0 ? (
-    currentItems.map((product) => (
-      <tr key={product._id}>
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip id={`nameProduct-tooltip`}>{product.name}</Tooltip>}
-        >
-          <td>{truncateText(product.name, 6)}</td>
-        </OverlayTrigger>
-
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip id={`descriptionProduct-tooltip`}>{product.description}</Tooltip>}
-        >
-          <td>{truncateText(product.description, 5)}</td>
-        </OverlayTrigger>
-
-        <td>{product.store}</td>
-        <td>${product.price.toFixed(2)}</td>
-        <td>
-          {product.category.name}
-        </td>
-        <td>
-          <Button
-            variant="warning"
-            onClick={() => handleShow("update", product)}
-            className="me-2"
-          >
-            <EditIcon />
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => handleDeleteProduct(product._id)}
-          >
-            <DeleteIcon />
-          </Button>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="6">No products found.</td>
-    </tr>
-  )}
-</tbody> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
           </Table>
 
-          { !error && currentItems?.length > 0 && (
+          { currentItems?.length > 0 && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -319,47 +268,27 @@ console.log("categories",categorys);
               />
             </Form.Group>
 
-            {/* <Form.Group controlId="formProductCategory" className="mt-3">
+            <Form.Group controlId="formProductCategory" className="mt-3">
               <Form.Label>Category</Form.Label>
+
               <Form.Control
                 as="select"
-                value={productData.categoryId}
+                value={productData.category.id}
                 onChange={(e) =>
-                  setProductData({ ...productData, categoryId: e.target.value })
+                  setProductData({
+                    ...productData,
+                    category: { ...productData.category, id: e.target.value },
+                  })
                 }
-                required
               >
-                {categorys?.map((category) => (
+                <option value="">Select a category</option>
+                {categories.map((category) => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
                 ))}
               </Form.Control>
-            </Form.Group> */}
-<Form.Group controlId="formProductCategory" className="mt-3">
-  <Form.Label>Category</Form.Label>
-  <Form.Control
-    as="select"
-    value={productData.categoryId}
-    onChange={(e) =>
-      setProductData({ ...productData, categoryId: e.target.value })
-    }
-    required
-  >
-    <option value="">Select a category</option> {/* Option par défaut */}
-    {categorys?.map((category) => (
-      <option key={category._id} value={category._id}>
-        {category.name}
-      </option>
-    ))}
-  </Form.Control>
-</Form.Group>
-
-
-
-
-
-
+            </Form.Group>
 
             <Button variant="primary" type="submit" className="mt-3">
               {modalAction === "create" ? "Create" : "Update"}

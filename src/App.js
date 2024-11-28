@@ -8,10 +8,10 @@ import LoginPage from './pages/customer/login/Login.jsx';
 import SignupPage from './pages/customer/signup/Signup.jsx';
 import NotFoundPage from './pages/customer/notFound/NotFound.jsx';
 import Layout from "./components/layout/Layout.jsx";
-import ProductsPage from './pages/product/Products.jsx';
-import UsersPage from './pages/user/User.jsx';
-import CategoryPage from './pages/category/Category.jsx';
-import CommandesPage from './pages/commande/Commande.jsx';
+import ProductsPage from './pages/admin/product/Products.jsx';
+import UsersPage from './pages/admin/user/User.jsx';
+import CategoryPage from './pages/admin/category/Category.jsx';
+import CommandesPage from './pages/admin/commande/Commande.jsx';
 
 function App() {
 

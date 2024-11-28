@@ -28,12 +28,12 @@ const useCommandes = () => {
       setIsLoading(true);
 
       const response = await axios.get("http://localhost:4000/commande");
-
+   
       // Fetch users only once when commandes are fetched
+      setCommandes(response.data.payload);
 
       getAllUsers();
 
-      setCommandes(response.data.payload);
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching commandes");
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Modal, Table, Alert, OverlayTrigger, Tooltip, ButtonGroup } from 'react-bootstrap';
-import useCategory from '../../hooks/useCategory.js';
-import { EditIcon, DeleteIcon, CreateIcon } from '../../assets/icons/Icons.jsx';
-import Loader from '../../components/loader/Loader.jsx';
-import Pagination from '../../components/paggination/Paggination.jsx';
-import usePagination from '../../hooks/usePagination.js';
+import useCategory from '../../../hooks/useCategory.js';
+import { EditIcon, DeleteIcon, CreateIcon } from '../../../assets/icons/Icons.jsx';
+import Loader from '../../../components/loader/Loader.jsx';
+import Pagination from '../../../components/paggination/Paggination.jsx';
+import usePagination from '../../../hooks/usePagination.js';
 
 const CategoryPage = () => {
     const {
