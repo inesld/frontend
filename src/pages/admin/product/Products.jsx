@@ -19,9 +19,7 @@ import {
 import Loader from "../../../components/loader/Loader.jsx";
 import Pagination from "../../../components/paggination/Paggination.jsx";
 import usePagination from "../../../hooks/usePagination.js";
-
-
-
+import { truncateText } from "../../../assets/utils/helpers.js";
 
 const Products = () => {
   const {
@@ -159,27 +157,88 @@ const Products = () => {
               {currentItems?.length > 0 ? (
                 currentItems.map((product) => (
                   <tr key={product._id}>
-                    <td>{product.name}</td>
-                    <td>{product.description}</td>
-                    <td>{product.store}</td>
-                    <td>${product.price.toFixed(2)}</td>
-                    <td>{product.category.name}</td>
-                    <td>
-                    
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="nameProduct-tooltip">
+                          {product.name}
+                        </Tooltip>
+                      } // Display Full Name when hovered
+                    >
+                      <td>{truncateText(product.name, 5)}</td>
+                    </OverlayTrigger>
 
-                      <Button
-                        variant="warning"
-                        onClick={() => handleShow("update", product)}
-                        className="me-2"
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="descriptionProduct-tooltip">
+                          {product.description}
+                        </Tooltip>
+                      } // Display Full Name when hovered
+                    >
+                      <td>{truncateText(product.description, 5)}</td>
+                    </OverlayTrigger>
+
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="storeProduct-tooltip">
+                          {product.store}
+                        </Tooltip>
+                      } // Display Full Name when hovered
+                    >
+                      <td>{product.store}</td>
+                    </OverlayTrigger>
+
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="storeProduct-tooltip">
+                          {product.store}
+                        </Tooltip>
+                      } // Display Full Name when hovered
+                    >
+                      <td>${product.price.toFixed(2)}</td>
+                    </OverlayTrigger>
+
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="categoryProduct-tooltip">
+                          {product.category.name}
+                        </Tooltip>
+                      } // Display Full Name when hovered
+                    >
+                      <td>{truncateText(product.category.name, 5)}</td>
+                    </OverlayTrigger>
+
+                    <td>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip id="edit-tooltip">Update</Tooltip>} // Display "Update" when hovered
                       >
-                        <EditIcon />
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDeleteProduct(product._id)}
+                        <Button
+                          variant="warning"
+                          onClick={() => handleShow("update", product)}
+                          className="me-2"
+                        >
+                          <EditIcon />
+                        </Button>
+                      </OverlayTrigger>
+
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id="delete-tooltip"> Delete </Tooltip>
+                        } // Display "Delete" when hovered
                       >
-                        <DeleteIcon />
-                      </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDeleteProduct(product._id)}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </OverlayTrigger>
                     </td>
                   </tr>
                 ))
@@ -191,7 +250,7 @@ const Products = () => {
             </tbody>
           </Table>
 
-          { currentItems?.length > 0 && (
+          {currentItems?.length > 0 && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -282,7 +341,7 @@ const Products = () => {
                 }
               >
                 <option value="">Select a category</option>
-                {categories.map((category) => (
+                {categories?.map((category) => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>

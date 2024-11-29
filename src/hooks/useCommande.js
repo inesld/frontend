@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import { CgLayoutGrid } from "react-icons/cg";
-
 import useProducts from "./useProducts.js";
 
 import useUsers from "./useUser.js";
@@ -28,12 +26,11 @@ const useCommandes = () => {
       setIsLoading(true);
 
       const response = await axios.get("http://localhost:4000/commande");
-   
+
       // Fetch users only once when commandes are fetched
       setCommandes(response.data.payload);
 
       getAllUsers();
-
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching commandes");
 
@@ -144,7 +141,7 @@ const useCommandes = () => {
 
   const getUserName = (userId) => {
     const user = users.find((user) => user._id === userId);
-    console.log("user" ,userId);
+    console.log("user", userId);
 
     return user ? `${user.firstName}  ${user.lasttName}` : "Unknown"; // Retourne 'Unknown' si l'utilisateur n'est pas trouvé
   };
@@ -153,7 +150,7 @@ const useCommandes = () => {
     getAllCommandes();
     getAllProducts();
     getAllUsers();
-  }, []);
+  }, [ ]);
 
   return {
     commandes,

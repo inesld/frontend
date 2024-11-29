@@ -148,6 +148,7 @@ const ExamplesPage = () => {
                                                     <EditIcon />
                                                 </Button>
                                             </OverlayTrigger>
+                                            
                                             <OverlayTrigger
                                                 placement="top"
                                                 overlay={<Tooltip id="delete-tooltip"> Delete </Tooltip>}  // Display "Delete" when hovered
