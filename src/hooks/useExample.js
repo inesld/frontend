@@ -67,6 +67,8 @@ const useExamples = () => {
                 prevExamples.map(example => example.id === id ? response.data.payload : example)
             )
             setExampleSelected(response.data.payload)
+
+            getAllExamples()
         } catch (error) {
             setError(error.response?.data?.message || `Error updating example with id: ${id}`)
             console.error("Error updating example", error)
@@ -82,6 +84,7 @@ const useExamples = () => {
             await axios.delete(`http://localhost:4000/examples/${id}`)
             setExamples(prevExamples => prevExamples.filter(example => example.id !== id))
             setExampleSelected(null)
+            getAllExamples();
         } catch (error) {
             setError(error.response?.data?.message || `Error deleting example with id: ${id}`)
             console.error("Error deleting example", error)

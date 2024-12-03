@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Modal, Table, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Form, Modal, Table, Alert, OverlayTrigger, Tooltip, ButtonGroup } from 'react-bootstrap';
 import useExamples from '../../../hooks/useExample.js';
 import { EditIcon, DeleteIcon, CreateIcon } from '../../../assets/icons/Icons.jsx';  // Import reusable icons
 import Loader from '../../../components/loader/Loader.jsx';
@@ -16,15 +16,16 @@ const ExamplesPage = () => {
         setExampleSelected,
         isLoading,
         error,
+        setError,
         getAllExamples,
         createExample,
         updateExample,
         deleteExample
-    } = useExamples();
+    } = useExamples()
 
     // TODO! Destructure pagination hook to manage current page and items
     const { currentPage, currentItems, totalPages, handlePageChange } =
-        usePagination(examples, 1);
+        usePagination(examples,1);
 
     // TODO! State for handling modal visibility and form action
     const [showModal, setShowModal] = useState(false);
@@ -47,6 +48,7 @@ const ExamplesPage = () => {
         setShowModal(false);
         setExampleData({ id: '', name: '', description: '' });
         setExampleSelected(null);
+        setError(null)
     };
 
     // TODO! Function to handle form submission for creating or updating an example
@@ -82,7 +84,6 @@ const ExamplesPage = () => {
 
     return (
         <div className="container mt-4">
-
             {/*  Display an error message if there's an error */}
             {error && <Alert variant="danger">{error}</Alert>}
 
@@ -130,7 +131,7 @@ const ExamplesPage = () => {
 
                                         <OverlayTrigger
                                             placement="top"
-                                            overlay={<Tooltip id="nameExample-tooltip">{example.name}</Tooltip>}  // Display Full Description when hovered
+                                            overlay={<Tooltip id="nameExample-tooltip">{example.description}</Tooltip>}  // Display Full Description when hovered
                                         >
                                             <td>{truncateText(example.description, 5)}</td>
                                         </OverlayTrigger>
@@ -148,7 +149,7 @@ const ExamplesPage = () => {
                                                     <EditIcon />
                                                 </Button>
                                             </OverlayTrigger>
-                                            
+
                                             <OverlayTrigger
                                                 placement="top"
                                                 overlay={<Tooltip id="delete-tooltip"> Delete </Tooltip>}  // Display "Delete" when hovered
@@ -170,7 +171,8 @@ const ExamplesPage = () => {
                         </tbody>
                     </Table>
 
-                    {/* Display pagination if there are items */}                    {!error && currentItems.length > 0 && (
+                    {/* Display pagination if there are items */}
+                          {!error && currentItems?.length > 0 && (
                         <Pagination
                             currentPage={currentPage}
                             totalPages={totalPages}
@@ -178,8 +180,6 @@ const ExamplesPage = () => {
                         />
                     )}
 
-                </>
-            )}
 
             {/* Modal for creating or updating examples */}
             <Modal show={showModal} onHide={handleClose}>
@@ -211,12 +211,20 @@ const ExamplesPage = () => {
                             />
                         </Form.Group>
 
-                        <Button variant="primary" type="submit">
+                        <ButtonGroup className="my-2 d-flex justify-content-end">
+                        <Button variant="primary" type="submit" className='me-2'>
                             {modalAction === 'create' ? 'Create' : 'Update'}
                         </Button>
+                        <Button variant="danger" onClick={() => { handleClose() }}>
+                            cancel
+                        </Button>
+                        </ButtonGroup>
                     </Form>
                 </Modal.Body>
             </Modal>
+                </>
+            )}
+
         </div>
     );
 };

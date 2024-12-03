@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 
+import { CgLayoutGrid } from "react-icons/cg";
+
 import useProducts from "./useProducts.js";
 
-import useUsers from "./useUser.js";
+import useUsers from "./useUsers.js";
 
 const useCommandes = () => {
   const { getAllProducts, products } = useProducts();
@@ -65,8 +67,6 @@ const useCommandes = () => {
   const createCommande = async (commandeData) => {
     try {
       setIsLoading(true);
-
-      console.log("commandeData", commandeData);
 
       await axios.post("http://localhost:4000/commande", commandeData);
 
@@ -141,7 +141,6 @@ const useCommandes = () => {
 
   const getUserName = (userId) => {
     const user = users.find((user) => user._id === userId);
-    console.log("user", userId);
 
     return user ? `${user.firstName}  ${user.lasttName}` : "Unknown"; // Retourne 'Unknown' si l'utilisateur n'est pas trouvé
   };
@@ -150,7 +149,7 @@ const useCommandes = () => {
     getAllCommandes();
     getAllProducts();
     getAllUsers();
-  }, [ ]);
+  }, []);
 
   return {
     commandes,

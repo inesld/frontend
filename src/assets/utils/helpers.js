@@ -5,7 +5,7 @@ export const truncateText = (text, limit) => {
     if (text && text.length > limit) {
         return (
             <>
-                {text.slice(0, limit)}...
+                {text.slice(0, limit)} ...
                 <OverlayTrigger
                     placement="top"
                     overlay={<Tooltip id="tooltip">{text}</Tooltip>}

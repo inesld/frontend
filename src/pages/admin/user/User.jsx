@@ -8,7 +8,7 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import useUsers from "../../../hooks/useUser.js";
+import useUsers from "../../../hooks/useUsers.js";
 import {
   EditIcon,
   DeleteIcon,
@@ -325,3 +325,4 @@ const UsersPage = () => {
 };
 
 export default UsersPage;
+

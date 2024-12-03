@@ -39,10 +39,10 @@ const useCategorys = () => {
     const createCategory = async (categoryData) => {
         try {
             setIsLoading(true);
-            const response = await axios.post("http://localhost:4000/Category", categoryData); 
+            const response = await axios.post("http://localhost:4000/Category", categoryData);
             setCategories((prevCategorys) => {
                 if (Array.isArray(prevCategorys)) {
-                    return [...prevCategorys , response.data.payload];
+                    return [...prevCategorys, response.data.payload];
                 } else {
                     return [response.data.payload]
                 }
@@ -50,14 +50,14 @@ const useCategorys = () => {
             );
             getAllCategorys()
         } catch (err) {
-            
+
             setError(err.response?.data?.message || 'Error creating Category');
             console.error("Error creating Category", err);
         } finally {
             setIsLoading(false);
         }
     };
-    
+
 
     // Update a Category
     const updateCategory = async (id, updatedData) => {
@@ -94,7 +94,7 @@ const useCategorys = () => {
     }, []);
 
     return {
-        categories, 
+        categories,
         categorySelected,
         setCategorySelected,
         isLoading,
@@ -109,3 +109,4 @@ const useCategorys = () => {
 };
 
 export default useCategorys;
+

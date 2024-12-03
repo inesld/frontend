@@ -5,7 +5,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     if (totalPages <= 0) return null;
 
     return (
-        <div className="light">
+        <div>
             <Button
                 variant="btn-outline-secondary"
                 disabled={currentPage === 1}

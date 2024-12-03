@@ -6,9 +6,9 @@ import Footer from '../footer/Footer.jsx'
 const Layout = () => {
   return (
     <div>
-        <Menu/>
+        <Menu />
         <Outlet/>
-       <Footer/>
+        <Footer/>
     </div>
   )
 }

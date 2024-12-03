@@ -7,7 +7,7 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import useCommandes from "../../../hooks/useCommande";
+import useCommandes from "../../../hooks/useCommandes.js";
 import Loader from "../../../components/loader/Loader";
 import { EditIcon, DeleteIcon, CreateIcon } from "../../../assets/icons/Icons";
 import { truncateText } from "../../../assets/utils/helpers";

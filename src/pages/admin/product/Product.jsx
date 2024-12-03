@@ -10,7 +10,7 @@ import {
   select,
 } from "react-bootstrap";
 import useProducts from "../../../hooks/useProducts.js";
-import useCategorys from "../../../hooks/useCategory.js";
+import useCategorys from "../../../hooks/useCategorys.js";
 import {
   EditIcon,
   DeleteIcon,
@@ -36,7 +36,6 @@ const Products = () => {
   } = useProducts();
 
   const { categories } = useCategorys(); // Assuming categories are fetched here
-  console.log("categories", categories);
   const { currentPage, currentItems, totalPages, handlePageChange } =
     usePagination(products, 1);
 
@@ -149,7 +148,6 @@ const Products = () => {
                 <th>Description</th>
                 <th>Store</th>
                 <th>Price</th>
-                <th>Category</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -200,18 +198,6 @@ const Products = () => {
                     >
                       <td>${product.price.toFixed(2)}</td>
                     </OverlayTrigger>
-
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id="categoryProduct-tooltip">
-                          {product.category.name}
-                        </Tooltip>
-                      } // Display Full Name when hovered
-                    >
-                      <td>{truncateText(product.category.name, 5)}</td>
-                    </OverlayTrigger>
-
                     <td>
                       <OverlayTrigger
                         placement="top"
